@@ -126,7 +126,7 @@ self: super:
 
   cryptography = super.cryptography.overridePythonAttrs (
     old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) or [ ]
+      nativeBuildInputs = (old.nativeBuildInputs or [ ])
         ++ lib.optional (stdenv.buildPlatform != stdenv.hostPlatform) self.python.pythonForBuild.pkgs.cffi;
       buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.openssl ];
     }
@@ -653,7 +653,7 @@ self: super:
       withMysql = old.passthru.withMysql or false;
     in
     {
-      buildInputs = (old.buildInputs or [ ]) or [ ] ++ [ pkgs.sqlite ];
+      buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.sqlite ];
       propagatedBuildInputs = old.propagatedBuildInputs or [ ]
         ++ lib.optional withPostgres self.psycopg2
         ++ lib.optional withMysql self.mysql-connector;
@@ -1242,16 +1242,16 @@ self: super:
           find $out -name "*.so" -exec ${pkgs.patchelf}/bin/patchelf --remove-needed libcuda.so.1 {} \;
         '';
         buildInputs =
-          ((old.buildInputs or [ ])
-            ++ [ self.typing-extensions ]
-            ++ lib.optionals enableCuda [
+          (old.buildInputs or [ ])
+          ++ [ self.typing-extensions ]
+          ++ lib.optionals enableCuda [
             pkgs.linuxPackages.nvidia_x11
             pkgs.nccl.dev
             pkgs.nccl.out
           ];
-            propagatedBuildInputs = [
-        self.numpy
-        self.future
+        propagatedBuildInputs = [
+          self.numpy
+          self.future
         ];
       })
     )
@@ -1414,7 +1414,7 @@ self: super:
 
   watchdog = super.watchdog.overrideAttrs (
     old: {
-      buildInputs = (old.buildInputs or [ ]) or [ ]
+      buildInputs = (old.buildInputs or [ ])
         ++ pkgs.lib.optional pkgs.stdenv.isDarwin pkgs.darwin.apple_sdk.frameworks.CoreServices;
     }
   );
