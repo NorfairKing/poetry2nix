@@ -165,7 +165,7 @@ pythonPackages.callPackage
             }
           )
         else if isUrl then
-          builtins.fetchTarball
+          pkgs.fetchzip
             {
               inherit (source) url;
             }
